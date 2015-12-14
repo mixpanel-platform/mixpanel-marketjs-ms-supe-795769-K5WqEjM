@@ -11,22 +11,28 @@
     <script>
       MP.api.funnel('Ad Loaded', 'Install', {'segment': 'Creative ID'}).done(function(results) {
         console.log(results);
+        var res = {};
         var table = document.getElementById('Results Table');
         var row = table.insertRow(0);
         var name = row.insertCell(0);
-        name.innerHTML = '<strong>Vendor Name</strong>';
+        name.innerHTML = '<strong>Creative ID</strong>';
         var name = row.insertCell(1);
         name.innerHTML = '<strong>Ad Loaded Count</strong>';
         var name = row.insertCell(2);
         name.innerHTML = '<strong>Install Count</strong>';
         var name = row.insertCell(3);
         name.innerHTML = '<strong>Conversion %</strong>';
-        var name = row.insertCell(4);
-        name.innerHTML = '<strong>Average Time</strong>';
+        var numSegments = 0;
         for (var key in results) {
-          if ((key != 'undefined')&&(key != 'vendor_name_here')) {
-            
+          numSegments++;
+          row = table.insertRow(numSegments);
+          res[key] = {};
+          res[key].id = key;
+          for (k in results[key]) {
+            res[key].loaded = res[key].loaded + results[key][k]['0'].count || results[key][k]['0'].count;
+            res[key].install = res[key].loaded + results[key][k]['1'].count || results[key][k]['1'].count;
           }
+          console.log(res);
         }
       });
 
