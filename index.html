@@ -19,12 +19,10 @@
     install.innerHTML = '<strong>Install Count</strong>';
     var conv = row.insertCell(3);
     conv.innerHTML = '<strong>Conversion per 1000</strong>';
-    /*
     var filter = '(string(properties["Creative ID"]) == "19673" or ' +
                  'string(properties["Creative ID"]) == "19726" or ' +
                  'string(properties["Creative ID"]) == "19675")';
-    */
-    MP.api.funnel('Ad Loaded', 'Install', {/*'where': filter, */'segment': 'Creative ID'}).done(function(results) {
+    MP.api.funnel('Ad Loaded', 'Install', {'where': filter, 'segment': 'Creative ID'}).done(function(results) {
       console.log(results);
       var res = {};
       var numSegments = 0;
