@@ -33,6 +33,7 @@
             res[key].loaded = res[key].loaded + results[key][k]['0'].count || results[key][k]['0'].count;
             res[key].install = res[key].install + results[key][k]['1'].count || results[key][k]['1'].count;
           }
+          res[key].conv = res[key].install / res[key].loaded;
         }
         console.log(res);
       });
