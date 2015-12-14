@@ -7,7 +7,7 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <table id='Results Table'></table>
+    <table id='Results Table' width="100%"></table>
     <script>
       MP.api.funnel('Ad Loaded', 'Install', {'segment': 'Game Vendor'}).done(function(results) {
         console.log(results);
