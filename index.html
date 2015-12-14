@@ -7,10 +7,22 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
+    <table id='Results Table'></table>
     <script>
       MP.api.funnel('Ad Loaded', 'Install', {'segment': 'Game Vendor'}).done(function(results) {
         console.log(results);
+        var table = document.getElementById('Result Table');
+        var row = table.insertRow(0);
+        var name = row.insertCell(0);
+        name.innerHTML = '<strong>Vendor Name</strong>';
+        var name = row.insertCell(0);
+        name.innerHTML = '<strong>Ad Loaded Count</strong>';
+        var name = row.insertCell(0);
+        name.innerHTML = '<strong>Install Count</strong>';
+        var name = row.insertCell(0);
+        name.innerHTML = '<strong>Conversion %</strong>';
+        var name = row.insertCell(0);
+        name.innerHTML = '<strong>Average Time</strong>';
       });
 
       // Run queries and display results here
