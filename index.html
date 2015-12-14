@@ -19,23 +19,27 @@
     install.innerHTML = '<strong>Install Count</strong>';
     var conv = row.insertCell(3);
     conv.innerHTML = '<strong>Conversion per 1000</strong>';
+    //here I'm picking an arbitrary filter on creative IDs just to make the results table smaller
     var filter = '(string(properties["Creative ID"]) == "19673" or ' +
                  'string(properties["Creative ID"]) == "19726" or ' +
                  'string(properties["Creative ID"]) == "19675")';
     MP.api.funnel('Ad Loaded', 'Install', {'where': filter, 'segment': 'Creative ID'}).done(function(results) {
+      //this all happens when the query is finished, should be a second or two
       console.log(results);
       var res = {};
       var numSegments = 0;
-      for (var key in results) {
+      for (var key in results) { //for each Creative ID
         numSegments++;
         row = table.insertRow(numSegments);
         res[key] = {};
         res[key].id = key;
         for (k in results[key]) {
+          //add up counts from each day in time window
           res[key].loaded = res[key].loaded + results[key][k]['0'].count || results[key][k]['0'].count;
           res[key].install = res[key].install + results[key][k]['1'].count || results[key][k]['1'].count;
         }
-        res[key].conv = res[key].install * 1000 / res[key].loaded;
+        res[key].conv = res[key].install * 1000 / res[key].loaded; //calculate coversion per 1000
+        //add a row to the table
         id = row.insertCell(0);
         id.innerHTML = res[key].id;
         loaded = row.insertCell(1);
