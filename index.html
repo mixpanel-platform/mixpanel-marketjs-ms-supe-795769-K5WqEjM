@@ -11,7 +11,7 @@
     <script>
       MP.api.funnel('Ad Loaded', 'Install', {'segment': 'Game Vendor'}).done(function(results) {
         console.log(results);
-        var table = document.getElementById('Result Table');
+        var table = document.getElementById('Results Table');
         var row = table.insertRow(0);
         var name = row.insertCell(0);
         name.innerHTML = '<strong>Vendor Name</strong>';
