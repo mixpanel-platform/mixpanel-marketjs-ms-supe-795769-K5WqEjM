@@ -9,6 +9,10 @@
   <body class="mixpanel-platform-body">
     <h1>Hello, World!</h1>
     <script>
+      MP.api.funnel('Ad Loaded', 'Install' {'segment': 'Game Vendor'}).done(function(results) {
+        console.log(results);
+      });
+
       // Run queries and display results here
     </script>
   </body>
