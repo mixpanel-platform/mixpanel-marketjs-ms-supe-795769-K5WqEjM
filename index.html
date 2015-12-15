@@ -22,14 +22,14 @@
       var id;
       var conv;
       //here I'm picking an arbitrary filter on creative IDs just to make the results table smaller
-      // var filter = '(string(properties["Creative ID"]) == "19673" or ' +
-      //              'string(properties["Creative ID"]) == "19726" or ' +
-      //              'string(properties["Creative ID"]) == "19675")';
+       var filter = '(string(properties["Creative ID"]) == "19673" or ' +
+                    'string(properties["Creative ID"]) == "19726" or ' +
+                    'string(properties["Creative ID"]) == "19675")';
       var startDate = from;
       var endDate = to;
       var params = {'from': startDate,
                     'to': endDate,
-                    //'where': filter,
+                    'where': filter,
                     'segment': 'Creative ID'};
       MP.api.funnel('Ad Loaded', 'Install', params).done(function(results) {
         //this all happens when the query is finished, should be a second or two
