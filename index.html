@@ -8,13 +8,16 @@
   </head>
   <body class="mixpanel-platform-body">
     <div class="mpdatepicker"></div>
+    <div id="table" class="report"></div>
     <table id='Results Table' width="100%"></table>
     <script>
+
+    console.log('a')
+
     var $mpdatepicker = $('.mpdatepicker').MPDatepicker();
-    var table = document.getElementById('Results Table');
     runQuery($mpdatepicker.val().from, $mpdatepicker.val().to);
     $mpdatepicker.on('change', function(e, dates) {
-        table.innerHTML = '';
+        document.getElementById("resultstable").remove();
         runQuery(dates.from, dates.to);
     });
     function runQuery(from, to) {
@@ -22,47 +25,29 @@
       var id;
       var conv;
       //here I'm picking an arbitrary filter on creative IDs just to make the results table smaller
-       var filter = '(string(properties["Creative ID"]) == "19673" or ' +
+      var filter = '(string(properties["Creative ID"]) == "19673" or ' +
                     'string(properties["Creative ID"]) == "19726" or ' +
                     'string(properties["Creative ID"]) == "19675")';
       var startDate = from;
       var endDate = to;
+      var segment = 'Creative ID'
       var params = {'from': startDate,
                     'to': endDate,
                     'where': filter,
-                    'segment': 'Creative ID'};
+                    'segment': segment};
       MP.api.funnel('Ad Loaded', 'Install', params).done(function(results) {
-        //this all happens when the query is finished, should be a second or two
-        console.log(results);
-        var numSegments = 0;
-        for (var key in results) { //for each Creative ID
-          var dates = [];
-          for (var k in results[key]) {
-            dates.push(k);
-          }
-          dates.sort()
-          if (numSegments == 0) {
-            row = table.insertRow(numSegments);
-            conv = row.insertCell(0);
-            conv.innerHTML = 'Creative ID';
-            var counter = 1;
-            for (var i = 0; i < dates.length; i++) {
-              conv = row.insertCell(counter);
-              conv.innerHTML = dates[i] + ' Conversion/1000';
-              counter++;
-            }
-          }
-          numSegments++;
-          row = table.insertRow(numSegments);
-          id = row.insertCell(0);
-          id.innerHTML = key;
-          var colCount = 0;
-          for (var i = 0; i < dates.length; i++) {
-            colCount++;
-            conv = row.insertCell(colCount);
-            conv.innerHTML = results[key][dates[i]]['1'].step_conv_ratio * 1000;
+        var res = {};
+        for (var k in results) {
+          res[k] = {};
+          for (var j in results[k]) {
+            res[k][j] = results[k][j]['1'].overall_conv_ratio * 1000;
           }
         }
+        $('<div id="resultstable"></div>').appendTo('body').MPTable({ 
+            data: res,
+            showPercentages: true,
+            firstColHeader: segment
+        });
       });
     }
     </script>
